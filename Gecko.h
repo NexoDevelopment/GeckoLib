@@ -56,6 +56,13 @@ using namespace System::Runtime::InteropServices;
 #define COMMAND_PERSIST_ASSEMBLY 0xE1
 #define COMMAND_CLEAR_ASSEMBLY 0xE2
 
+struct RPC_Args
+{
+	uint32_t function_addr;
+	uint32_t gpr[8]; // r3 to r11
+
+};
+
 public ref class Gecko
 {
 public:
@@ -65,6 +72,9 @@ public:
 	void Kill();
 	void pokemem(uint32_t addr, uint32_t value);
 	uint8_t *readmem(uint32_t addr, uint32_t size);
+	void UploadMemory(uint32_t start_addr, uint32_t size, uint8_t* data);
+	uint32_t Get_Symbol(char* rplname, char* symname);
+	uint32_t RPC(RPC_Args* args);
 
 	TcpClient^ tcp;
 	NetworkStream^ stream;
